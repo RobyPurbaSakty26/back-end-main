@@ -73,4 +73,39 @@ describe('AppicationCotroler', () => {
       });
     });
   });
+  describe('#getOffsetFromReques', () => {
+    it('sould call return offset', async () => {
+      const mocReq = {
+        query: {
+          page: 10,
+          pageSize: 20,
+        },
+      };
+      const appContoler = new ApplicationController();
+      const hasil = await appContoler.getOffsetFromRequest(mocReq);
+      let count = (mocReq.query.page - 1) * mocReq.query.pageSize;
+      expect(hasil).toBe(count);
+    });
+  });
+
+  describe('#buldPaginationObjek', () => {
+    it('sould call buildPaginationObjek return', async () => {
+      const page = 1;
+      const pageSize = 10;
+      const mockReq = {
+        query: {},
+      };
+      const count = 10;
+      const mockCount = count;
+      const appContoler = new ApplicationController();
+      const hasil = await appContoler.buildPaginationObject(mockReq, mockCount);
+      const pageCount = Math.ceil(mockCount / pageSize);
+      expect(hasil).toEqual({
+        page,
+        pageCount,
+        pageSize,
+        count,
+      });
+    });
+  });
 });
