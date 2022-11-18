@@ -49,4 +49,28 @@ describe('AppicationCotroler', () => {
       });
     });
   });
+
+  describe('#hadleEror', () => {
+    it('sould call res status 500 and res json err', async () => {
+      const err = new Error(' erorr ');
+      const mocReq = {};
+      const mocNex = jest.fn();
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const appContoler = new ApplicationController();
+      await appContoler.handleError(err, mocReq, mockRes, mocNex);
+
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        error: {
+          name: err.name,
+          message: err.message,
+          details: err.details || null,
+        },
+      });
+    });
+  });
 });
