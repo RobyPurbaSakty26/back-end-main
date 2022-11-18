@@ -44,7 +44,7 @@ describe('AppicationCotroler', () => {
         error: {
           name: err.name,
           message: err.message,
-          details: err.details,
+          details: err.details || null,
         },
       });
     });
