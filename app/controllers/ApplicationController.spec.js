@@ -1,3 +1,4 @@
+const { NotFoundError } = require('../errors');
 const ApplicationController = require('./ApplicationController');
 
 describe('AppicationCotroler', () => {
@@ -15,6 +16,36 @@ describe('AppicationCotroler', () => {
       expect(mocRes.json).toHaveBeenCalledWith({
         status: 'OK',
         message: 'BCR API is up and running!',
+      });
+    });
+  });
+  describe('#handleNotfound', () => {
+    it('should call res status(404) and res json err', async () => {
+      // moc params
+      const methode = 'POTS';
+      const url = 'notFound';
+
+      const mocRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const mocReq = {
+        methode,
+        url,
+      };
+
+      const appContoler = new ApplicationController();
+      await appContoler.handleNotFound(mocReq, mocRes);
+
+      const err = new NotFoundError(mocRes.methode, mocReq.url);
+
+      expect(mocRes.status).toHaveBeenCalledWith(404);
+      expect(mocRes.json).toHaveBeenCalledWith({
+        error: {
+          name: err.name,
+          message: err.message,
+          details: err.details,
+        },
       });
     });
   });
