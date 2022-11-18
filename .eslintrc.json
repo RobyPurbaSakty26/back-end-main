@@ -13,6 +13,7 @@
     "no-unused-vars": "warn",
     "no-undef": "warn",
     "no-extra-boolean-cast": "warn",
-    "quotes": "warn"
+    "quotes": "warn",
+    "no-extra-semi": "off"
   }
 }
